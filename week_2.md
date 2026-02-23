@@ -15,7 +15,6 @@ Create `app.py` in your project root:
 ```python
 from flask import Flask, jsonify, request
 from bot import BuilderBot
-from bot_skills import build_from_json
 import json
 
 app = Flask(__name__)
@@ -37,6 +36,8 @@ At this point, run your back end with `flask run` in the terminal. Open a new ta
 Update your `main.py` to include a button that calls your Flask endpoint:
 
 ```python
+import requests
+
 def call_starter(username):
     """username can be your hard-coded Minecraft name, or you could add a text input to capture this"""
     url = "http://localhost:5000/spawn_bot"  # This will have to change once deployed
@@ -77,7 +78,7 @@ def spawn_bot():
 
 You'll need two terminal windows open to test:
 
-- Terminal 1: `python app.py` (Flask back end)
+- Terminal 1: `python app.py` (Flask back end). Make sure to rerun this every time you make changes. Or you can turn on hot reloading for Flask
 - Terminal 2: `streamlit run main.py` (Streamlit front end)
 
 ---
@@ -94,7 +95,7 @@ For the full pricing breakdown by image size, check [Anthropic's vision docs](ht
 
 **2.2 Create a `resize_image` Utility**
 
-Create a new file `utils.py` in your frontend folder:
+Create a new file `utils.py` in your project root:
 
 ```python
 from PIL import Image
@@ -125,7 +126,7 @@ We're keeping max tokens relatively low for now. Our JSON output doesn't need to
 
 **3.3 Defining Your JSON Schema**
 
-Before writing prompts, youu must define exactly what output you want. Within your bot folder, make a new file called `models.py`. Here's the schema we'll use for build instructions:
+Before writing prompts, you must define exactly what output you want. Within your bot folder, make a new file called `models.py`. Here's the schema we'll use for build instructions:
 
 ```python
 from typing import List, Optional
@@ -153,9 +154,11 @@ These two classes will be used to assert that our output from the LLM is exactly
 - `block_type` — a valid Minecraft block name (e.g., `"oak_planks"`, `"stone"`, `"glass"`)
 - `facing` — an optional field that determins orientation for blocks like stairs
 
+We won't be using these classes this week, but they will be helpful later.
+
 **3.4 Create `claude_client.py`**
 
-Copy the file called `claude_client.py` into your frontend folder. I decided to provide you with this file because it's kind of long, but please make sure to go through comments in the code and make sure you understand what is happening.
+Copy the file called `claude_client.py` into your project root. I decided to provide you with this file because it's kind of long, but please make sure to go through comments in the code and make sure you understand what is happening.
 
 Notice how there's a "Few shot 1" in the system prompt. You can think of this just as an example for the LLM to know what it's supposed to output. This is a good technique to follow in system prompts.
 

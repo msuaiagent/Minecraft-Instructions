@@ -109,6 +109,8 @@ def call_analyzer(img, img_bytes, depth_str=None):
     if json_str.endswith("```"):
         json_str = json_str[:-3]
 
+    print(f"Claude response: {json_str}")
+
     # Parse the cleaned string into a Python dict and return it.
     # If parsing fails, print the error and return None so the caller can handle it.
     try:
