@@ -223,6 +223,26 @@ json_str = response.content[0].text.strip()
 Update `main.py` to call Claude when an image is uploaded and display the results:
 
 1. Resize the image first with the function you made
+
+```python
+if uploaded_img is not None:
+    img_bytes = BytesIO(uploaded_img.read())
+    img = Image.open(img_bytes)
+    img = resize_image(img)
+
+    # Display the uploaded image
+    st.image(img, caption="Uploaded Image", use_container_width=True)
+
+    # Convert the resized PIL image back to bytes for the API call
+    resized_bytes = BytesIO()
+    img.save(
+        resized_bytes, format="WEBP"
+    )  # WARNING: this will only work if the original image is a webp image. You may want to add some logic to handle different formats.
+    resized_bytes.seek(0)
+
+    json_str = call_analyzer(uploaded_img, resized_bytes)
+```
+
 2. Import and call the `call_analyzer` function
 3. Display the JSON response in a Streamlit code object (with language="json"). Sometimes the response from Claude will be cut off and not include the final bracket, so you will have to handle this case
 
