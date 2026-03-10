@@ -184,7 +184,7 @@ class BuilderBot:
 
 The initializer for the class uses a clever way to get your IP: makes a UDP connection with Google's public DNS server.
 
-**⚠️ Important Notes:**
+**Important Notes:**
 
 - This method may not work if you're using a VPN (disconnect it during development)
 - If you're using WSL or Docker, you may need additional network configuration
